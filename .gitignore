@@ -1,0 +1,6 @@
+.tern-port
+.tern-project
+threejs.js
+typings/
+typings.json
+node_modules/
