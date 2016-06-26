@@ -97,17 +97,9 @@ var drawing = (function () {
             // console.log(obj);
             // console.log(ray);
             if (obj.length > 0) {
-                console.log(obj[0].object.name);
+                alert(obj[0].object.name);
             }
         });
-    };
-    // 四角の描画関数
-    drawing.prototype.squareMesh = function (x, y, z, size, color) {
-        var geometry = new THREE.PlaneGeometry(size, size);
-        var material = new THREE.MeshLambertMaterial({ color: color });
-        var mesh = new THREE.Mesh(geometry, material);
-        mesh.position.set(x, y, z);
-        this.scene.add(mesh);
     };
     // 球体の描画関数
     drawing.prototype.sphereMesh = function (x, y, z, size, color, i) {
@@ -117,33 +109,6 @@ var drawing = (function () {
         mesh.position.set(x, y, z);
         mesh.name = "sphere" + i;
         this.scene.add(mesh);
-    };
-    // 線の描画関数
-    drawing.prototype.lineMesh = function (x1, y1, z1, x2, y2, z2, color) {
-        var geometry = new THREE.Geometry();
-        var material = new THREE.LineBasicMaterial({
-            color: color
-        });
-        geometry.vertices.push(new THREE.Vector3(x1, y1, z1), new THREE.Vector3(x2, y2, z2));
-        var mesh = new THREE.Line(geometry, material);
-        this.scene.add(mesh);
-    };
-    // 婚姻関係用の二重横線
-    drawing.prototype.doubleLineMesh = function (x1, y1, z1, x2, y2, z2, color) {
-        var geometry = new THREE.Geometry();
-        var material = new THREE.LineBasicMaterial({
-            color: color
-        });
-        geometry.vertices.push(new THREE.Vector3(x1, y1 + 3, z1), new THREE.Vector3(x2, y2 + 3, z2));
-        var mesh = new THREE.Line(geometry, material);
-        this.scene.add(mesh);
-        var geometry2 = new THREE.Geometry();
-        var material2 = new THREE.LineBasicMaterial({
-            color: color
-        });
-        geometry2.vertices.push(new THREE.Vector3(x1, y1 - 3, z1), new THREE.Vector3(x2, y2 - 3, z2));
-        var mesh2 = new THREE.Line(geometry2, material2);
-        this.scene.add(mesh2);
     };
     drawing.prototype.helper = function (ln) {
         var axis = new THREE.AxisHelper(ln);
@@ -179,37 +144,28 @@ var drawing = (function () {
     };
     return drawing;
 })();
-// 描画に最低限の情報を読み込む
-var url = "data/tree.json";
-var data = [];
-var nodeDepth = [];
-$.getJSON(url, function (tree) {
-    for (var i = 0; i < tree.list.length; i++) {
-        data[i] = new treeNode(tree.list[i].id, tree.list[i].parent, tree.list[i].marrige, tree.list[i].children, 0, 0.0, 0.0, 0.0, 0xffffff, null);
-    }
-    // インスタンス生成、初期化
-    var d = new drawing();
-    var l = [];
-    for (var i = 0; i < 8; i++) {
-        var x = 100 * Math.cos(i * 2 * Math.PI / 8);
-        var z = 100 * Math.sin(i * 2 * Math.PI / 8);
-        l.push([x, z]);
-    }
-    // d.helper(500);
-    d.sphereMesh(0, 0, 0, 10, 0xffff00, 55);
-    // シーンにオブジェクトを追加
-    for (i = 0; i < l.length; i++) {
-        d.sphereMesh(l[i][0], 0, l[i][1], 10, 0xff0000, i);
-    }
-    for (i = 0; i < d.scene.children.length; i++) {
-        console.log(d.scene.children[i].id, d.scene.children[i].name);
-    }
-    window.onload = function (e) {
-        d.onmousemove(e);
-    };
-    $("button").click(function () {
-        d.cameraReset();
-    });
-    // 描画
-    d.render();
+// インスタンス生成、初期化
+var d = new drawing();
+var l = [];
+for (var i = 0; i < 8; i++) {
+    var x = 100 * Math.cos(i * 2 * Math.PI / 8);
+    var z = 100 * Math.sin(i * 2 * Math.PI / 8);
+    l.push([x, z]);
+}
+// d.helper(500);
+d.sphereMesh(0, 0, 0, 10, 0xffff00, 55);
+// シーンにオブジェクトを追加
+for (i = 0; i < l.length; i++) {
+    d.sphereMesh(l[i][0], 0, l[i][1], 10, 0xff0000, i);
+}
+for (i = 0; i < d.scene.children.length; i++) {
+    console.log(d.scene.children[i].id, d.scene.children[i].name);
+}
+window.onload = function (e) {
+    d.onmousemove(e);
+};
+$("button").click(function () {
+    d.cameraReset();
 });
+// 描画
+d.render();

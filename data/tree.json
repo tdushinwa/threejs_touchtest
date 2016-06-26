@@ -1,0 +1,52 @@
+{
+    "list":[
+        {
+            "id": 0,
+            "parent": null,
+            "marrige": 1,
+            "children": [2,3,4]
+        },
+
+        {
+            "id": 1,
+            "parent": null,
+            "marrige": 0,
+            "children": [2,3,4]
+        },
+
+        {
+            "id": 2,
+            "parent": [0,1],
+            "marrige": 5,
+            "children": [6]
+        },
+
+        {
+            "id": 3,
+            "parent": [0,1],
+            "marrige": null,
+            "children": null
+        },
+
+        {
+            "id": 4,
+            "parent": [0,1],
+            "marrige": null,
+            "children": null
+        },
+
+        {
+            "id": 5,
+            "parent": null,
+            "marrige": 2,
+            "children": [6]
+        },
+
+        {
+            "id": 6,
+            "parent": [2,5],
+            "marrige": null,
+            "children": null
+        }
+    ]
+}
